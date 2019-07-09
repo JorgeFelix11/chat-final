@@ -1,0 +1,24 @@
+<mat-toolbar color="primary">
+  <span><button mat-button (click)="loginOrDashboard()">DinoChat</button></span>
+  <span class="spacer"></span>
+  <ul>
+    <li *ngIf="!isLogged">
+      <a mat-button routerLink="/login" routerLinkActive="mat-accent" i18n="Login button@@loginBtn">Login</a>
+    </li>
+  </ul>
+  <ul>
+    <li *ngIf="!isLogged">
+      <a mat-button routerLink="/signup" routerLinkActive="mat-accent" i18n="Sign up button@@signUpBtn">Sign up</a>
+    </li>
+  </ul>
+  <ul>
+    <li *ngIf="isLogged">
+      <a mat-button routerLink="/info" routerLinkActive="mat-accent">Info</a>
+    </li>
+  </ul>
+  <ul>
+    <li *ngIf="isLogged">
+      <button mat-button (click)="onLogout()" i18n="Logout button@@logoutBtn">Logout</button>
+    </li>
+  </ul>
+</mat-toolbar>

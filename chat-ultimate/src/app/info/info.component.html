@@ -1,0 +1,9 @@
+<mat-card>
+  <h3 i18n="Info section's title@@infoTitle">Profile Info</h3>
+  <ul>
+    <li i18n="Display username@@username">Username: {{ user.username }}</li>
+    <li i18n="Email of user@@email">Email: {{ user.email }}</li>
+    <li i18n="Profile picture label@@profilePicture">Profile Picture:</li>
+    <img src="assets/images/jorge-1562659001628.jpg" [alt]="user.username">
+  </ul>
+</mat-card>

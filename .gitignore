@@ -1,3 +1,6 @@
 /express-server/backendChat/node_modules
 /express-server/backendUsers/node_modules
-/chat-ultimate
+/chat-ultimate/node_modules
+/chat-ultimate/dist
+/chat-ultimate/tmp
+/chat-ultimate/out-tsc

@@ -1,0 +1,67 @@
+<mat-card>
+  <form [formGroup]="form" (submit)="onSignup()">
+    <mat-form-field>
+      <input 
+      matInput 
+      type="email"
+      formControlName="email" 
+      placeholder="Email">
+      <mat-error 
+        *ngIf="form.get('email').invalid" 
+        i18n="Error message on invalid email on sign up@@errorEmailSignup">
+          Please enter a valid E-mail
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input 
+        i18n="Username sign up section@@usernameInputSignUp"
+        matInput 
+        type="text" 
+        formControlName="username"
+        placeholder="Username">
+        <mat-error 
+          *ngIf="form.get('username').invalid" 
+          i18n="Error message on invalid username on sign up@@errorUsernameSignup">
+            Please enter a valid username
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input 
+        matInput 
+        type="password" 
+        formControlName="password"
+        i18n="Password sign up section@@usernameInputSignUp"
+        placeholder="Password">
+        <mat-error 
+          *ngIf="form.get('password').invalid"
+          i18n="Error message on invalid password on sign up@@errorPasswordSignup">
+            Please enter a valid password
+        </mat-error>
+    </mat-form-field>
+    <!-- <mat-form-field>
+      <input 
+        matInput 
+        type="password" 
+        placeholder="Confirm Password">
+    </mat-form-field> -->
+    <div>
+      <button 
+        mat-stroked-button type="button" 
+        (click)="filePicker.click()"
+        i18n="Button to pick an avatar@@pickAvatarBtn">
+          Pick Avatar
+      </button>
+      <input type="file" #filePicker (change)="onImagePicked($event)">
+    </div>
+    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
+      <img [src]="imagePreview" alt="form.value.username">
+    </div>
+    <div class="end">
+      <button 
+        type="submit"
+        mat-raised-button 
+        color="primary"
+        i18n="Sign up button to finish process@@finishSignUpBtn">Sign up</button>
+    </div>
+  </form>
+</mat-card>

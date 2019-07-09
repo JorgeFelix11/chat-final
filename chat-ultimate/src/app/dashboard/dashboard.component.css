@@ -1,0 +1,122 @@
+mat-expansion-panel{
+  width: 25%;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.group{
+  margin-top: 1rem;
+  float: right;
+}
+
+.search, .contact{
+  display: inline-block;
+}
+
+.contactFound{
+  margin-top: 1rem;
+}
+h4{
+  margin-top: 0;
+  position: absolute;
+}
+
+.container mat-card{
+  border: 1px black solid;
+}
+.profilePic{
+  width: 50%;
+}
+
+.container{
+  width: 100%;
+}
+.container aside{
+  height: 85vh;
+  width: 20vw;
+  float: left;
+  overflow: auto;
+  border: 1px solid black;
+}
+.container aside::-webkit-scrollbar{
+  width: 0px;
+  background: transparent;
+}
+.friend{
+  line-height: 1px;
+  display: inline-block;
+  position: absolute;
+}
+
+.groups{
+  line-height: 1px;
+  display: inline-block;
+}
+
+.chatBtnGroup{
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
+.status{
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
+.container main{
+  width: 50vw;
+  clear: both;
+  display: inline-block;
+}
+
+.messages{
+  width: 55vw;
+  height: 64vh;
+  border: 1px solid black;
+  overflow: auto;
+}
+
+.sender{
+  clear: both;
+  width: 40%;
+  float: right;
+  background-color: lightgreen;
+  border: 1px solid red;
+  list-style: none;
+  margin-right: 3rem;
+}
+
+.receiver{
+  clear: both;
+  width: 40%;
+  border: 1px solid black;
+  list-style: none;
+  float: left;
+  background-color: lightskyblue;
+}
+
+.sendBtn{
+  margin-left: 5px;
+  float: right;
+}
+mat-form-field{
+  width: 85%;
+}
+.inputMessages{
+  width: 55vw;
+}
+
+.headerMessages{
+  width: 55vw;
+  height: 38px;
+}
+.accept{
+  font-size: .5rem;
+  width: 30px;
+}
+
+.participants{
+  display: inline-block;
+}

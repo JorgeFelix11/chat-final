@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="loginBtn" datatype="html">
+        <source>Login</source>
+        <target>Iniciar Sesión</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/header/header.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description">Login button</note>
+      </trans-unit>
+      <trans-unit id="signUpBtn" datatype="html">
+        <source>Sign up</source>
+        <target>Registrarse</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/header/header.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">Sign up button</note>
+      </trans-unit>
+      <trans-unit id="logoutBtn" datatype="html">
+        <source>Logout</source>
+        <target>Cerrar Sesión</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/header/header.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <note priority="1" from="description">Logout button</note>
+      </trans-unit>
+      <trans-unit id="errorEmailLogin" datatype="html">
+        <source>
+            Please enter a valid email
+        </source>
+        <target>Porfavor ingrese un correo electronico válido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/auth/login/login.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <note priority="1" from="description">Error message on invalid email on login</note>
+      </trans-unit>
+      <trans-unit id="loginSectionBtn" datatype="html">
+        <source>Login</source>
+        <target>Iniciar Sesión</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/auth/login/login.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <note priority="1" from="description">Login button of login section</note>
+      </trans-unit>
+      <trans-unit id="errorEmailSignup" datatype="html">
+        <source>
+          Please enter a valid E-mail
+        </source>
+        <target>Porfavor ingrese un correo electronico válido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/auth/signup/signup.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">Error message on invalid email on sign up</note>
+      </trans-unit>
+      <trans-unit id="errorUsernameSignup" datatype="html">
+        <source>
+            Please enter a valid username
+        </source>
+        <target>Porfavor ingrese un nombre de usuario válido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/auth/signup/signup.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <note priority="1" from="description">Error message on invalid username on sign up</note>
+      </trans-unit>
+      <trans-unit id="errorPasswordSignup" datatype="html">
+        <source>
+            Please enter a valid password
+        </source>
+        <target>Porfavor ingrese una contaseña válida</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/auth/signup/signup.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <note priority="1" from="description">Error message on invalid password on sign up</note>
+      </trans-unit>
+      <trans-unit id="pickAvatarBtn" datatype="html">
+        <source>
+          Pick Avatar
+      </source>        
+      <target>Escoja un Ávatar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/auth/signup/signup.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <note priority="1" from="description">Button to pick an avatar</note>
+      </trans-unit>
+      <trans-unit id="finishSignUpBtn" datatype="html">
+        <source>Sign up</source>        
+        <target>Registrarse</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/auth/signup/signup.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+        <note priority="1" from="description">Sign up button to finish process</note>
+      </trans-unit>
+      <trans-unit id="groupFormTitle" datatype="html">
+        <source>Group Conversation</source>
+        <target>Conversación Grupal</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/groupForm/groupForm.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Group form&apos;s title</note>
+      </trans-unit>
+      <trans-unit id="participantsForm" datatype="html">
+        <source>Participants:</source>
+        <target>Participantes:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/groupForm/groupForm.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Participants to be displayed in form</note>
+      </trans-unit>
+      <trans-unit id="groupsName" datatype="html">
+        <source>Group&apos;s Name:</source>
+        <target>Nombre del Grupo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/groupForm/groupForm.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <note priority="1" from="description">Name of the group</note>
+      </trans-unit>
+      <trans-unit id="participantsLabel" datatype="html">
+        <source>Participants:</source>
+        <target>Participantes:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/groupForm/groupForm.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <note priority="1" from="description">Label for participants input</note>
+      </trans-unit>
+      <trans-unit id="groupFormSearchBtn" datatype="html">
+        <source>Search</source>
+        <target>Buscar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/groupForm/groupForm.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <note priority="1" from="description">Search button of group form</note>
+      </trans-unit>
+      <trans-unit id="addToGroupBtn" datatype="html">
+        <source>Add Contact</source>
+        <target>Agregar Contacto</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/groupForm/groupForm.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <note priority="1" from="description">Add contact to list of participants of group</note>
+      </trans-unit>
+      <trans-unit id="cancelGroupForm" datatype="html">
+        <source>Better Not</source>
+        <target>Mejor No</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/groupForm/groupForm.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <note priority="1" from="description">Cancel button of group form</note>
+      </trans-unit>
+      <trans-unit id="createGroupBtn" datatype="html">
+        <source>Create</source>
+        <target>Crear</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/groupForm/groupForm.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <note priority="1" from="description">Finish creation of group</note>
+      </trans-unit>
+      <trans-unit id="addingPannel" datatype="html">
+        <source>
+          Add Contact
+        </source>
+        <target>Agregar Contacto</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Button to display panel to add contact</note>
+      </trans-unit>
+      <trans-unit id="searchContactBtn" datatype="html">
+        <source>
+          Search
+        </source>
+        <target>Buscar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <note priority="1" from="description">Button to search contact</note>
+      </trans-unit>
+      <trans-unit id="addContactBtn" datatype="html">
+        <source>
+          Add Contact
+        </source>
+        <target>Agregar Contacto</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <note priority="1" from="description">Button to add contact</note>
+      </trans-unit>
+      <trans-unit id="groupConvBtn" datatype="html">
+        <source>
+          Group Conversation
+        </source>
+        <target>Conversacion Grupal</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <note priority="1" from="description">Button to create a group conversation</note>
+      </trans-unit>
+      <trans-unit id="pendingIndicator" datatype="html">
+        <source>
+          Pending
+        </source>
+        <target>Pendiente</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <note priority="1" from="description">Indicator of pending request</note>
+      </trans-unit>
+      <trans-unit id="acceptFriendBtn" datatype="html">
+        <source>
+          Accept
+        </source>
+        <target>Aceptar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+        <note priority="1" from="description">Button to accept a friend request</note>
+      </trans-unit>
+      <trans-unit id="groupsConvsIndicator" datatype="html">
+        <source>Groups</source>
+        <target>Grupos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+        <note priority="1" from="description">Indicator of where group conversations begin</note>
+      </trans-unit>
+      <trans-unit id="groupsConvsHeader" datatype="html">
+        <source>Participants</source>
+        <target>Participantes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+        <note priority="1" from="description">Header for group conversation</note>
+      </trans-unit>
+      <trans-unit id="sendMessageBtn" datatype="html">
+        <source>
+            Send
+        </source>
+        <target>Enviar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">123</context>
+        </context-group>
+        <note priority="1" from="description">Button to send message</note>
+      </trans-unit>
+      <trans-unit id="infoTitle" datatype="html">
+        <source>Profile Info</source>
+        <target>Información del Perfil</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/info/info.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Info section&apos;s title</note>
+      </trans-unit>
+      <trans-unit id="username" datatype="html">
+        <source>Username: <x id="INTERPOLATION" equiv-text="{{ user.username }}"/></source>
+        <target>Usuario: <x id="INTERPOLATION" equiv-text="{{ user.username }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/info/info.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Display username</note>
+      </trans-unit>
+      <trans-unit id="email" datatype="html">
+        <source>Email: <x id="INTERPOLATION" equiv-text="{{ user.email }}"/></source>
+        <target>Correo: <x id="INTERPOLATION" equiv-text="{{ user.username }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/info/info.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <note priority="1" from="description">Email of user</note>
+      </trans-unit>
+      <trans-unit id="profilePicture" datatype="html">
+        <source>Profile Picture:</source>
+        <target>Foto de Perfil:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/info/info.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description">Profile picture label</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,131 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title i18n="Button to display panel to add contact@@addingPannel">
+      Add Contact
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <form (submit)="onAddContact(loginForm)" #loginForm="ngForm">
+    <mat-form-field>
+      <input matInput placeholder="Email" type="email" name="email" class="email" required email ngModel>
+    </mat-form-field>
+    <button 
+      name="search" 
+      mat-raised-button 
+      class="search" 
+      [disabled]="loginForm.invalid"
+      (click)="buttonClicked = 'search'" 
+      type="submit" 
+      i18n="Button to search contact@@searchContactBtn">
+        Search
+    </button>
+    <button 
+      name="add" 
+      mat-raised-button 
+      color="primary" 
+      [disabled]="!found" 
+      (click)="buttonClicked = 'add'"
+      type="submit" 
+      class="contact" 
+      i18n="Button to add contact@@addContactBtn">
+        Add Contact
+    </button>
+  </form>
+  <div *ngIf="found" class="contactFound">
+    <ul>
+      <li>
+        {{contact.email}}
+      </li>
+      <img class="profilePic" [src]="contact.imagePath" [alt]="contact.username">
+    </ul>
+  </div>
+</mat-expansion-panel>
+<button 
+  mat-raised-button color="primary" 
+  class="group" 
+  (click)="openDialog()"
+  i18n="Button to create a group conversation@@groupConvBtn">
+    Group Conversation
+</button>
+<div class="container">
+  <aside>
+    <mat-card *ngFor="let contact of contacts; let i = index">
+      <img [src]="contact.imagePath" alt="" style="height: 40px; width: 40px">
+      <p class="friend">{{contact.email}}</p>
+      <button 
+        class="status" 
+        mat-fab 
+        *ngIf="contact.status === 'Pending'" 
+        i18n="Indicator of pending request@@pendingIndicator">
+          Pending
+      </button>
+      <button 
+        class="status"
+        mat-fab 
+        color="accent" 
+        *ngIf="contact.status === 'Invited'" 
+        (click)="onAccept(i)"
+        i18n="Button to accept a friend request@@acceptFriendBtn">
+          Accept
+      </button>
+      <button 
+        class="status" 
+        mat-mini-fab 
+        color="primary" 
+        *ngIf="contact.status === 'Accepted'"
+        (click)="onChat(i)">
+          Chat
+      </button>
+
+    </mat-card>
+    <mat-card>
+      <h1 i18n="Indicator of where group conversations begin@@groupsConvsIndicator">Groups</h1>
+      <mat-card *ngFor="let group of groups; let i = index">
+        <p class="groups">{{group.group}}</p>
+        <button class="chatBtnGroup" mat-mini-fab color="primary" (click)="onGroupChat(i)">Chat</button>
+      </mat-card>
+    </mat-card>
+  </aside>
+  <main>
+    <div>
+      <mat-card class="headerMessages">
+        <ul *ngFor="let contactConv of contactsConv">
+          <li>{{contactConv.email}}</li>
+        </ul>
+        <ul *ngIf="groupContacts.length > 1">
+          <li i18n="Header for group conversation@@groupsConvsHeader">Participants</li>
+          <li *ngFor="let groupContact of groupContacts; let inx = index" class="participants">
+            {{groupContact.email}},&nbsp;
+          </li>
+        </ul>
+      </mat-card>
+    </div>
+    <mat-card class="messages">
+      <ul *ngFor="let message of messages">
+        <li *ngIf="this.user.id === message._id" class="sender">
+          <span>{{message.contact}}:</span><br>
+          {{message.message}}
+        </li>
+        <li *ngIf="this.user.id !== message._id" class="receiver">
+          <span>{{message.contact}}:</span><br>
+          {{message.message}}
+        </li>
+      </ul>
+    </mat-card>
+    <mat-card class="inputMessages">
+      <form (submit)="sendMessage(messageForm)" #messageForm="ngForm">
+        <mat-form-field>
+          <input matInput type="text" autocomplete="off" class="writingMessage" name="message" required ngModel>
+        </mat-form-field>
+        <button 
+          mat-raised-button class="sendBtn" 
+          type="submit"
+          [disabled]="messageForm.invalid || conversationId === ''" 
+          i18n="Button to send message@@sendMessageBtn">
+            Send
+        </button>
+      </form>
+    </mat-card>
+  </main>
+</div>
+
+<router-outlet></router-outlet>

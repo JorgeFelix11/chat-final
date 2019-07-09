@@ -1,0 +1,35 @@
+.search, .contact{
+  display: block;
+}
+
+.groupForm{
+  width: 95%;
+  border: 1px solid black;
+  padding: 1rem;
+}
+
+.formItself{
+  width: 30%;
+}
+
+.contactFound{
+  width: 40%;
+  margin-bottom: 1rem;
+}
+
+
+.foundContact li, .foundContact{
+padding: 1rem 0 0 0;
+display: inline-block;
+}
+
+.profilePic{
+  width: 50px;
+  float: right;
+}
+
+.participants{
+  width: 40%;
+  border: 1px solid black;
+  float: right;
+}

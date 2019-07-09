@@ -1,0 +1,37 @@
+<div class="groupForm">
+  <h1 mat-dialog-title style="text-align: center" i18n="Group form's title@@groupFormTitle">Group Conversation</h1>
+  <div class="participants">
+    <p i18n="Participants to be displayed in form@@participantsForm">Participants:</p>
+    <ul *ngFor="let participant of participants; let inx = index">
+      <li>{{participant.email}}</li>
+    </ul>
+  </div>
+  <div class="formItself">
+    <p i18n="Name of the group@@groupsName">Group's Name:</p>
+    <mat-form-field>
+      <input matInput placeholder="Name Here" type="text" #nameGroup>
+    </mat-form-field>
+    <p i18n="Label for participants input@@participantsLabel">Participants:</p>
+    <mat-form-field>
+      <input matInput placeholder="Participant's Name" type="text" #emailFriend>
+    </mat-form-field>
+    <button name="search" mat-raised-button class="search" type="submit" (click)="search(emailFriend)" i18n="Search button of group form@@groupFormSearchBtn">Search</button>
+    <button name="add" mat-raised-button [disabled]="!found" type="submit" (click)="addParticipant()" class="contact" i18n="Add contact to list of participants of group@@addToGroupBtn">Add Contact</button>
+
+  </div>
+
+  <div *ngIf="found" class="contactFound">
+    <ul class="foundContact">
+      <li>
+        {{contact.email}}
+      </li>
+      <img class="profilePic" [src]="contact.imagePath" [alt]="contact.username">
+    </ul>
+  </div>
+</div>
+
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" i18n="Cancel button of group form@@cancelGroupForm">Better Not</button>
+  <button mat-raised-button color="primary" (click)="createGroup(nameGroup)" i18n="Finish creation of group@@createGroupBtn">Create</button>
+</div>
