@@ -73,7 +73,7 @@ export class NotificationsService{
     
   addContact(email: string, status: string){
     const contact = { email, status };
-    this.http.post<any>('/api/chat/add', contact)
+    this.http.post<any>('/api/users/add', contact)
       .subscribe(response => {
         this.contacts = []
         response.contacts.forEach(element => {
@@ -84,14 +84,14 @@ export class NotificationsService{
   }
 
   getContactsForRooms(){
-    this.http.get<any>('/api/chat/getcontacts')
+    this.http.get<any>('/api/users/getcontactsdb')
     .subscribe(response => {
       this.contactsArr.next(response.userContacts.contacts)
     })
   }
 
   getContacts(){    
-    this.http.get<any>('/api/chat/getcontacts')
+    this.http.get<any>('/api/users/getcontactsdb')
     .subscribe(response => {
       this.contacts = response.contacts;
       this.foundStatus.next(true);
@@ -102,7 +102,7 @@ export class NotificationsService{
     let contactAccepted = {
       friendId: this.contacts[index]._id
     }    
-    this.http.post<{contacts: any[], acceptor: {contacts: any[]}}>('/api/chat/accept', contactAccepted)
+    this.http.post<{contacts: any[], acceptor: {contacts: any[]}}>('/api/users/accept', contactAccepted)
       .subscribe(async (response) => {
         this.contacts = []
         response.contacts.forEach(element => {
@@ -114,7 +114,7 @@ export class NotificationsService{
   }
 
   chat(index){
-    this.http.post<any>('/api/chat/chat', {friendId: this.contacts[index]._id})
+    this.http.post<any>('/api/users/chat', {friendId: this.contacts[index]._id})
       .subscribe(response => {
         this.messages = response.conversation.messages.filter(message => response.contacts.find(contact => {
           if(message._id === contact._id){
@@ -131,7 +131,7 @@ export class NotificationsService{
   }
 
   groupChat(index){
-    this.http.post<any>('/api/chat/chat', {groupId: this.groups[index]._id})
+    this.http.post<any>('/api/users/chat', {groupId: this.groups[index]._id})
     .subscribe(response => {
       this.groupContacts = response.contacts;
       this.messages = response.conversation.messages.filter(message => response.contacts.find(contact => {
@@ -156,20 +156,20 @@ export class NotificationsService{
   }
 
   getGroups(){
-    this.http.get<any>('/api/chat/getgroups')
+    this.http.get<any>('/api/users/getgroups')
       .subscribe(response => {
         this.groups = response.conversationInfo;
         this.groupsStatus.next(response.conversationInfo)
       })
   }
   getGroupsForRooms(){
-    this.http.get<any>('/api/chat/getgroups')
+    this.http.get<any>('/api/users/getgroups')
     .subscribe(response => {
       this.groupsArrStatus.next(response.conversationInfo)
     })
   }
   createGroupChat(name, participants){
-    this.http.post<any>('/api/chat/create-group', {name, participants})
+    this.http.post<any>('/api/users/create-group', {name, participants})
       .subscribe(response => {
       })
   }

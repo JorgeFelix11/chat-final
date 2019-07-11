@@ -1,0 +1,28 @@
+version: '2' # specify docker-compose version
+
+# Define the services/containers to be run
+services:
+  angular: # name of the first service
+    hostname: localhost
+    build: chat-ultimate # specify the directory of the Dockerfile
+    ports:
+      - "8181:80" # specify port forewarding
+
+  express-users: #name of the second service
+    build: express-server/backendUsers # specify the directory of the Dockerfile
+    ports:
+      - "3000:3000" #specify ports forewarding
+    links:
+      - database # link this service to the database service
+
+  express-chat:
+    build: express-server/backendChat
+    ports:
+      - "5000:5000"
+    links:
+      - database
+
+  database: # name of the third service
+    image: mongo # specify image to build container from
+    ports:
+      - "27017:27017" # specify port forewarding

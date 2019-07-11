@@ -32,6 +32,10 @@ const storage = multer.diskStorage({
   }
 });
 
+router.get('/hello', (req, res) => {
+  res.send("Hello world");
+})
+
 router.post('/signup', multer({ storage }).single('image'), (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
   bcrypt.hash(req.body.password, 10)
@@ -95,7 +99,7 @@ router.post('/login', (req, res, next) => {
         { expiresIn: '1h' }
       );
 
-      res.cookie('access_token', token, { httpOnly: true })
+      res.cookie('access_token', token)
       res.status(200).json({
         message: 'token provided in the cookie',
         user: {
@@ -180,6 +184,81 @@ router.post('/search', checkAuth, (req, res, next) => {
     })
 })
 
+router.post('/add', checkAuth, (req, res, next) => {
+  let data = {
+    contactData: req.body,
+    userData: req.userData
+  }
+  axios.post('http://localhost:5000/api/chat/add', data)
+    .then(result => {
+      res.status(200).json(result.data)
+    })
+})
+
+
+router.get('/getcontactsdb', checkAuth, (req, res, next) => {
+  let data = {
+    userData: req.userData
+  }
+  axios.post('http://localhost:5000/api/chat/getcontacts', data)
+    .then(result => {
+      res.status(200).json(result.data)
+    })
+})
+
+router.post('/accept', checkAuth, (req, res, next) => {
+  let data = {
+    friend: req.body,
+    userData: req.userData
+  }
+  axios.post('http://localhost:5000/api/chat/accept', data)
+    .then(result => {
+      res.status(200).json(result.data)
+    })
+})
+
+router.post('/chat', checkAuth, (req, res, next) => {
+  let data = {
+    info: req.body,
+    userData: req.userData
+  }
+  axios.post('http://localhost:5000/api/chat/chat', data)
+    .then(result => {
+      res.status(200).json(result.data)
+    })
+})
+
+router.post('/create-group', checkAuth, (req, res, next) => {
+  let data = {
+    groupInfo: req.body,
+    userData: req.userData
+  }
+  axios.post('http://localhost:5000/api/chat/create-group', data)
+    .then(result => {
+      res.status(200).json(result.data)
+    })
+})
+
+router.get('/getgroups', checkAuth, (req, res, next) => {
+  let data ={
+    userData: req.userData
+  }
+  axios.post('http://localhost:5000/api/chat/getgroups', data)
+    .then(result => {
+      res.status(200).json(result.data)
+    })
+})
+
+router.post('/message', checkAuth, (req, res, next) => {
+  let data ={
+    messageInfo: req.body,
+    userData: req.userData
+  }
+  axios.post('http://localhost:5000/api/chat/message', data)
+    .then(result => {
+      res.status(200).json(result.data)
+    })
+})
 
 router.post('/logout', (req, res, next) => {
   res.clearCookie('access_token');

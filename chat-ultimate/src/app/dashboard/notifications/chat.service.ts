@@ -16,7 +16,7 @@ export class ChatService{
   }
 
   message(message: string, conversation: string){
-    this.http.post("/api/chat/message", {message, conversation})
+    this.http.post("/api/users/message", {message, conversation})
     .subscribe(response => {})
   }
 

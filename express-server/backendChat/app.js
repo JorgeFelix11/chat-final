@@ -3,7 +3,6 @@ const bodyParser = require("body-parser")
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const axios = require('axios');
-const checkAuth = require('../backendUsers/middleware/check-auth')
 const Contacts = require('./models/contacts')
 const Conversations = require('./models/conversations');
 const moment = require('moment');
@@ -19,7 +18,7 @@ const serverChat = appChat.listen(port, () => {
 let socketIO = require('socket.io')
 let io = socketIO(serverChat)
 
-mongoose.connect('mongodb://localhost:27017/final-chat-app-CHAT', {
+mongoose.connect('mongodb://database:27017/final-chat-app-CHAT', {
   useNewUrlParser: true,
   useCreateIndex: true
 })
@@ -45,11 +44,13 @@ appChat.use((req, res, next) => {
   next();
 });
 
-io.sockets.on('connection', (socket) => {
+appChat.get('/api/chat/hello', (req, res) => {
+  res.send("Hello world from chat");
+})
 
-  appChat.post('/api/chat/chat', checkAuth, (req, res, next) => {
-    if(!req.body.groupId){
-      Contacts.findOne({ "_id": req.userData.userId }).select({ contacts: { $elemMatch: { _id: req.body.friendId } } })
+  appChat.post('/api/chat/chat', (req, res, next) => {
+    if(!req.body.info.groupId){
+      Contacts.findOne({ "_id": req.body.userData.userId }).select({ contacts: { $elemMatch: { _id: req.body.info.friendId } } })
         .then(user => {
           Conversations.findById(user.contacts[0].conversation)
             .then(conversation => {
@@ -64,7 +65,7 @@ io.sockets.on('connection', (socket) => {
             })
         })
     }else{
-      Contacts.findOne({ "_id": req.userData.userId }).select({ groups: { $elemMatch: { id: req.body.groupId } } })
+      Contacts.findOne({ "_id": req.body.userData.userId }).select({ groups: { $elemMatch: { id: req.body.info.groupId } } })
       .then(user => {
         Conversations.findById(user.groups[0].id)
           .then(conversation => {
@@ -80,15 +81,15 @@ io.sockets.on('connection', (socket) => {
       })
     }
   })
-
-  appChat.post('/api/chat/message', checkAuth, (req, res, next) => {
+  
+  appChat.post('/api/chat/message', (req, res, next) => {
     const messageObj = {
-      contact: req.userData.email,
-      _id: req.userData.userId,
-      message: req.body.message,
+      contact: req.body.userData.email,
+      _id: req.body.userData.userId,
+      message: req.body.messageInfo.message,
       date: moment().format("DD-MM-YYYY HH:mm")
     }
-    Conversations.findByIdAndUpdate(req.body.conversation, { $push: { messages: { _id: messageObj._id, message: messageObj.message, date: messageObj.date } } }, { new: true })
+    Conversations.findByIdAndUpdate(req.body.messageInfo.conversation, { $push: { messages: { _id: messageObj._id, message: messageObj.message, date: messageObj.date } } }, { new: true })
       .then(conversation => {
         io.sockets.in(conversation._id).emit('message', {messageObj, conversation: conversation._id})
         res.status(200).json({
@@ -135,8 +136,8 @@ io.sockets.on('connection', (socket) => {
       })
   })
 
-  appChat.get('/api/chat/getcontacts', checkAuth, (req, res, next) => {
-    Contacts.findById(req.userData.userId)
+  appChat.post('/api/chat/getcontacts', (req, res, next) => {
+    Contacts.findById(req.body.userData.userId)
       .then(user => {
         axios.post('http://localhost:3000/api/users/getcontacts', user.contacts)
           .then(response => {
@@ -148,36 +149,32 @@ io.sockets.on('connection', (socket) => {
       })
   })
 
-appChat.get('/api/chat/getgroups', checkAuth, (req, res, next) => {
-  let conversationInfo = [];
-  Contacts.findById(req.userData.userId)
-    .then(user => {
-      const start = async () => {
-        await asyncForEach(user.groups, async (group) => {
-          Conversations.findById(group.id)
-            .then(theGroup => {
-              conversationInfo.push({ group: theGroup.name, participants: theGroup.participants, _id: group.id})
-            })
-          });
-        await waitFor(50);
-        // axios.post('http://localhost:3000/api/users/getcontacts', theGroup.participants)
-        // .then(response => {
-        //   conversationInfo.push({ group: theGroup.name, participants: theGroup.participants, _id: group.id, infoParticipants: response.data.contacts})
-        // })
-        res.status(200).json({
-          conversationInfo
-        })
-      }
-      start();
-    })
-})
+  appChat.post('/api/chat/getgroups', (req, res, next) => {
+    let conversationInfo = [];
+    Contacts.findById(req.body.userData.userId)
+      .then(user => {
+        const start = async () => {
+          await asyncForEach(user.groups, async (group) => {
+            Conversations.findById(group.id)
+              .then(theGroup => {
+                conversationInfo.push({ group: theGroup.name, participants: theGroup.participants, _id: group.id})
+              })
+            });
+          await waitFor(50);
+          res.status(200).json({
+            conversationInfo
+          })
+        }
+        start();
+      })
+  })
 
-  appChat.post('/api/chat/add', checkAuth, (req, res, next) => {
-    axios.post('http://localhost:3000/api/users/getcontact', { email: req.body.email })
+  appChat.post('/api/chat/add', (req, res, next) => {
+    axios.post('http://localhost:3000/api/users/getcontact', { email: req.body.contactData.email })
       .then(response => {
-        Contacts.findByIdAndUpdate(response.data._id, { $push: { contacts: { _id: req.userData.userId, status: req.body.status } } }, { new: true })
+        Contacts.findByIdAndUpdate(response.data._id, { $push: { contacts: { _id: req.body.userData.userId, status: req.body.contactData.status } } }, { new: true })
           .then(user => {
-            Contacts.findByIdAndUpdate(req.userData.userId, { $push: { contacts: { _id: response.data._id, status: "Pending" } } }, { new: true })
+            Contacts.findByIdAndUpdate(req.body.userData.userId, { $push: { contacts: { _id: response.data._id, status: "Pending" } } }, { new: true })
               .then(user => {
                 axios.post('http://localhost:3000/api/users/getcontacts', user.contacts)
                   .then(response2 => {
@@ -204,13 +201,13 @@ appChat.get('/api/chat/getgroups', checkAuth, (req, res, next) => {
       })
   })
 
-  appChat.post('/api/chat/accept', checkAuth, (req, res, next) => {
+  appChat.post('/api/chat/accept', (req, res, next) => {
     const accepted = {
-      _id: req.body.friendId,
+      _id: req.body.friend.friendId,
       status: "Accepted"
     }
     const acceptor = {
-      _id: req.userData.userId,
+      _id: req.body.userData.userId,
       status: "Accepted"
     }
 
@@ -232,7 +229,7 @@ appChat.get('/api/chat/getgroups', checkAuth, (req, res, next) => {
               .then(acceptor => {
                 axios.post('http://localhost:3000/api/users/getcontacts', acceptor.contacts)
                   .then(response => {
-                    io.sockets.in(accepted._id).emit('accept', {userId: req.userData.userId, conversationId: newConv._id})
+                    io.sockets.in(accepted._id).emit('accept', {userId: req.body.userData.userId, conversationId: newConv._id})
                     res.status(200).json({
                       message: 'Everything went ok',
                       acceptor,
@@ -256,12 +253,12 @@ appChat.get('/api/chat/getgroups', checkAuth, (req, res, next) => {
       })
   })
 
-  appChat.post('/api/chat/create-group', checkAuth, (req, res, next) => {
-    req.body.participants.push({_id: req.userData.userId})
-    let participantsArr = req.body.participants;
+  appChat.post('/api/chat/create-group', (req, res, next) => {
+    req.body.groupInfo.participants.push({_id: req.body.userData.userId})
+    let participantsArr = req.body.groupInfo.participants;
     console.log(participantsArr)
     let newGroupConversation = new Conversations({
-      name: req.body.name,
+      name: req.body.groupInfo.name,
       participants: participantsArr
     })
     newGroupConversation.save()
@@ -281,12 +278,13 @@ appChat.get('/api/chat/getgroups', checkAuth, (req, res, next) => {
       })
   })
 
-console.log("connected")
-  socket.on('join', (data) => {
-    socket.join(data, () => {
-      console.log(`${socket.id} Joined to room: ${data}`)
-    });
-  })
+io.sockets.on('connection', (socket) => {
+  console.log("connected")
+    socket.on('join', (data) => {
+      socket.join(data, () => {
+        console.log(`${socket.id} Joined to room: ${data}`)
+      });
+    })
 })
 const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
 async function asyncForEach(array, callback) {
