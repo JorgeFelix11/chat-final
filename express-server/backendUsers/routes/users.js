@@ -38,6 +38,7 @@ router.get('/hello', (req, res) => {
 
 router.post('/signup', multer({ storage }).single('image'), (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
+  console.log(url)
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const newUser = new User({
@@ -51,7 +52,7 @@ router.post('/signup', multer({ storage }).single('image'), (req, res, next) => 
           let newUser = {
             _id: result._id
           }
-          axios.post('http://localhost:5000/api/chat/onsignup', newUser)
+          axios.post('http://express-chat:5000/api/chat/onsignup', newUser)
             .then(result => {
               res.status(200).send(result.data)
             }).catch(e => {
@@ -189,7 +190,7 @@ router.post('/add', checkAuth, (req, res, next) => {
     contactData: req.body,
     userData: req.userData
   }
-  axios.post('http://localhost:5000/api/chat/add', data)
+  axios.post('http://express-chat:5000/api/chat/add', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -200,7 +201,7 @@ router.get('/getcontactsdb', checkAuth, (req, res, next) => {
   let data = {
     userData: req.userData
   }
-  axios.post('http://localhost:5000/api/chat/getcontacts', data)
+  axios.post('http://express-chat:5000/api/chat/getcontacts', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -211,7 +212,7 @@ router.post('/accept', checkAuth, (req, res, next) => {
     friend: req.body,
     userData: req.userData
   }
-  axios.post('http://localhost:5000/api/chat/accept', data)
+  axios.post('http://express-chat:5000/api/chat/accept', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -222,7 +223,7 @@ router.post('/chat', checkAuth, (req, res, next) => {
     info: req.body,
     userData: req.userData
   }
-  axios.post('http://localhost:5000/api/chat/chat', data)
+  axios.post('http://express-chat:5000/api/chat/chat', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -233,7 +234,7 @@ router.post('/create-group', checkAuth, (req, res, next) => {
     groupInfo: req.body,
     userData: req.userData
   }
-  axios.post('http://localhost:5000/api/chat/create-group', data)
+  axios.post('http://express-chat:5000/api/chat/create-group', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -243,7 +244,7 @@ router.get('/getgroups', checkAuth, (req, res, next) => {
   let data ={
     userData: req.userData
   }
-  axios.post('http://localhost:5000/api/chat/getgroups', data)
+  axios.post('http://express-chat:5000/api/chat/getgroups', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -254,7 +255,7 @@ router.post('/message', checkAuth, (req, res, next) => {
     messageInfo: req.body,
     userData: req.userData
   }
-  axios.post('http://localhost:5000/api/chat/message', data)
+  axios.post('http://express-chat:5000/api/chat/message', data)
     .then(result => {
       res.status(200).json(result.data)
     })

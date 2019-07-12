@@ -1,12 +1,12 @@
 {
   "/api/chat/*": {
-    "target": "http://localhost:5000",
+    "target": "http://express-chat:5000",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/api/users/*": {
-    "target": "http://localhost:3000",
+    "target": "http://express-users:3000",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

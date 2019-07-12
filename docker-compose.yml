@@ -6,7 +6,15 @@ services:
     hostname: localhost
     build: chat-ultimate # specify the directory of the Dockerfile
     ports:
-      - "8181:80" # specify port forewarding
+      - "4000:4000" # specify port forewarding
+
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - '3050:80'
 
   express-users: #name of the second service
     build: express-server/backendUsers # specify the directory of the Dockerfile
@@ -14,7 +22,7 @@ services:
       - "3000:3000" #specify ports forewarding
     links:
       - database # link this service to the database service
-
+      
   express-chat:
     build: express-server/backendChat
     ports:

@@ -18,7 +18,7 @@ const serverChat = appChat.listen(port, () => {
 let socketIO = require('socket.io')
 let io = socketIO(serverChat)
 
-mongoose.connect('mongodb://database:27017/final-chat-app-CHAT', {
+mongoose.connect('mongodb://localhost:27017/final-chat-app-CHAT', {
   useNewUrlParser: true,
   useCreateIndex: true
 })
@@ -54,7 +54,7 @@ appChat.get('/api/chat/hello', (req, res) => {
         .then(user => {
           Conversations.findById(user.contacts[0].conversation)
             .then(conversation => {
-              axios.post('http://localhost:3000/api/users/getcontacts', conversation.participants)
+              axios.post('http://express-users:3000/api/users/getcontacts', conversation.participants)
               .then(response => {
                 res.status(200).json({
                   message: "Here is your conversation",
@@ -69,7 +69,7 @@ appChat.get('/api/chat/hello', (req, res) => {
       .then(user => {
         Conversations.findById(user.groups[0].id)
           .then(conversation => {
-            axios.post('http://localhost:3000/api/users/getcontacts', conversation.participants)
+            axios.post('http://express-users:3000/api/users/getcontacts', conversation.participants)
             .then(response => {
               res.status(200).json({
                 message: "Here is your conversation",
@@ -139,7 +139,7 @@ appChat.get('/api/chat/hello', (req, res) => {
   appChat.post('/api/chat/getcontacts', (req, res, next) => {
     Contacts.findById(req.body.userData.userId)
       .then(user => {
-        axios.post('http://localhost:3000/api/users/getcontacts', user.contacts)
+        axios.post('http://express-users:3000/api/users/getcontacts', user.contacts)
           .then(response => {
             res.status(200).json({
               contacts: response.data.contacts,
@@ -170,13 +170,13 @@ appChat.get('/api/chat/hello', (req, res) => {
   })
 
   appChat.post('/api/chat/add', (req, res, next) => {
-    axios.post('http://localhost:3000/api/users/getcontact', { email: req.body.contactData.email })
+    axios.post('http://express-users:3000/api/users/getcontact', { email: req.body.contactData.email })
       .then(response => {
         Contacts.findByIdAndUpdate(response.data._id, { $push: { contacts: { _id: req.body.userData.userId, status: req.body.contactData.status } } }, { new: true })
           .then(user => {
             Contacts.findByIdAndUpdate(req.body.userData.userId, { $push: { contacts: { _id: response.data._id, status: "Pending" } } }, { new: true })
               .then(user => {
-                axios.post('http://localhost:3000/api/users/getcontacts', user.contacts)
+                axios.post('http://express-users:3000/api/users/getcontacts', user.contacts)
                   .then(response2 => {
                     io.sockets.in(response.data._id).emit('add-contact', true);
                     res.status(200).json({
@@ -227,7 +227,7 @@ appChat.get('/api/chat/hello', (req, res) => {
               { '$set': { 'contacts.$.status': accepted.status, "contacts.$.conversation": newConv._id } },
               { new: true })
               .then(acceptor => {
-                axios.post('http://localhost:3000/api/users/getcontacts', acceptor.contacts)
+                axios.post('http://express-users:3000/api/users/getcontacts', acceptor.contacts)
                   .then(response => {
                     io.sockets.in(accepted._id).emit('accept', {userId: req.body.userData.userId, conversationId: newConv._id})
                     res.status(200).json({

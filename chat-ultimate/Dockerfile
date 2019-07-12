@@ -3,16 +3,13 @@
 
 FROM node:8.16.0-alpine as node
 
-# Create a directory where our app will be placed
-RUN mkdir -p /usr/src/app
-
 # Change directory so that our commands run inside this new directory
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy dependency definitions
 
-COPY package*.json ./
+COPY package*.json /app/
 
 # Install dependecies
 
@@ -20,15 +17,18 @@ RUN npm install
 
 # Get all the code needed to run the app
 
-COPY . .
+COPY ./ /app/
 
 # Run the angular in product
-RUN npm run build
+RUN npm run build -- --output-path=./dist/out --prod
 
 # Stage 2
-FROM nginx:1.13.12-alpine
+FROM nginx:1.15.2-alpine
 
 #copy dist content to html nginx folder, config nginx to point in index.html
-COPY --from=node /usr/src/app/dist /usr/share/nginx/html
+EXPOSE 4000
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./default.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=node /app/dist/out /usr/share/nginx/html
+
