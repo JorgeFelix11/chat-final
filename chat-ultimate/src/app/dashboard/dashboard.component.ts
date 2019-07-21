@@ -7,10 +7,11 @@ import { ChatService } from './notifications/chat.service';
 import { AuthService } from '../auth/auth.service';
 import { MatDialog } from '@angular/material';
 import { GroupForm } from './groupForm/groupForm';
+import { AddContactForm } from './addContactForm/addContactForm';
+import { AddParticipantForm } from './addParticipantForm/addParticipantForm';
 
 export class DialogData {
-  animal: string;
-  name: string;
+  groupContacts: User[]
 }
 
 @Component({
@@ -27,6 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private onMessageSubs: Subscription;
   private onGroupSubs: Subscription;
   private groupMessageListenerSub: Subscription;
+  private addListenerSubs: Subscription;
   contactsConv: any[] = [];
   user: User;
   found: boolean;
@@ -55,6 +57,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.contacts = this.notificationsService.contacts;
       })
 
+    this.addListenerSubs = this.notificationsService.addListener()
+      .subscribe(() => {
+        this.contacts = this.notificationsService.contacts;
+      })
+
     this.onGroupSubs = this.notificationsService.groupsListener()
       .subscribe(() => {
         this.groups = this.notificationsService.groups;
@@ -62,7 +69,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.onMessageSubs = this.chatService.getMessages().subscribe(message => {
       if (message.conversation === this.conversationId) {
-        this.messages.push(message.messageObj)
+        this.messages.unshift(message.messageObj)
       } else {
       }
     })
@@ -90,34 +97,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(GroupForm, {
+    this.dialog.open(GroupForm, {
       width: '60vw',
       height: '70vh'
     });
-    dialogRef.afterClosed().subscribe(result => {
-      this.animal = result
-    })
   }
 
-  onAddContact(addContactForm: NgForm) {
-    if (this.buttonClicked == 'search') {
-      this.notificationsService.searchContact(addContactForm.value.email)
-      this.foundListenerSubs = this.notificationsService.foundListener()
-        .subscribe(wasFound => {
-          this.found = wasFound;
-          this.contact = this.notificationsService.contact;
-        })
-    } else if (this.buttonClicked == 'add') {
-      this.notificationsService.addContact(this.contact.email, "Invited")
-      this.notificationsService.addListener()
-        .subscribe(() => {
-          this.contacts = this.notificationsService.contacts;
-        })
-      this.found = false;
-      addContactForm.resetForm()
-    }
+  openDialogAdd(): void {
+    this.dialog.open(AddContactForm, {
+      width: '20vw',
+      height: '40vh'
+    });
   }
 
+  openDialogAddParticipant(): void {
+    this.dialog.open(AddParticipantForm, {
+      width: '20vw',
+      height: '40vh',
+      data: {groupContacts: this.groupContacts}
+    });
+  }
   onAccept(index) {
     this.notificationsService.acceptRequest(index)
     this.notificationsService.acceptListener()
@@ -139,7 +138,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
   }
 
-  onGroupChat(index){
+  onGroupChat(index) {
     this.notificationsService.groupChat(index);
     this.groupContacts = [];
     this.contactsConv = [];
@@ -157,6 +156,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.addListenerSubs) this.addListenerSubs.unsubscribe();
     if (this.foundListenerSubs) this.foundListenerSubs.unsubscribe();
     if (this.messageListenerSubs) this.messageListenerSubs.unsubscribe();
     if (this.onAcceptanceSubs) this.onAcceptanceSubs.unsubscribe();

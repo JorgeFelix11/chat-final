@@ -1,0 +1,24 @@
+<div>
+  <h1 style="margin-top: 0px; text-align: center;">Add Participant</h1>  
+  <form (submit)="onAddContact(loginForm)" #loginForm="ngForm" class="addContainer">
+    <mat-form-field class="addInput">
+      <input matInput placeholder="Email" type="email" name="email" required email ngModel>
+    </mat-form-field>
+    <button name="search" mat-raised-button class="searchBtn" [disabled]="loginForm.invalid"
+      (click)="buttonClicked = 'search'" type="submit" i18n="Button to search contact@@searchContactBtn">
+      Search
+    </button>
+    <button name="add" mat-raised-button color="primary" [disabled]="!found" (click)="buttonClicked = 'add'"
+      type="submit" class="addBtn" i18n="Button to add contact@@addContactBtn">
+      Add Contact
+    </button>
+  </form>
+  <div *ngIf="found" class="contactFound">
+    <ul>
+      <li>
+        {{contact.email}}
+      </li>
+      <img class="profilePic" ngxGravatar [email]="contact.email" [alt]="contact.username" fallback="{{contact.gravatar}}">
+    </ul>
+  </div>
+</div>

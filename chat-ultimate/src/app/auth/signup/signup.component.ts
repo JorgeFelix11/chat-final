@@ -25,10 +25,13 @@ export class SignupComponent implements OnInit {
       'password': new FormControl(null, {
         validators: [Validators.required]
       }),
-      'image': new FormControl(null, {
-        validators: [Validators.required],
-        asyncValidators: [mimeType]
+      'gravatar': new FormControl(null, {
+        validators: [Validators.required]
       })
+      // 'image': new FormControl(null, {
+      //   validators: [Validators.required],
+      //   asyncValidators: [mimeType]
+      // })
     })
   }
 
@@ -37,23 +40,24 @@ export class SignupComponent implements OnInit {
       return;
     }
     // console.log(this.form.value);
-    
+    console.log(this.form.value)
     this.authService.signup(
       this.form.value.email, 
       this.form.value.username, 
-      this.form.value.password, 
-      this.form.value.image
+      this.form.value.password,
+      this.form.value.gravatar
+    //   // this.form.value.image
     );
   }
 
-  onImagePicked(event: Event){
-    const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({image: file});
-    this.form.get('image').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result;
-    }
-    reader.readAsDataURL(file)
-  }
+  // onImagePicked(event: Event){
+  //   const file = (event.target as HTMLInputElement).files[0];
+  //   this.form.patchValue({image: file});
+  //   this.form.get('image').updateValueAndValidity();
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     this.imagePreview = reader.result;
+  //   }
+  //   reader.readAsDataURL(file)
+  // }
 }

@@ -15,6 +15,9 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { InfoComponent } from './info/info.component';
 import { ChatService } from './dashboard/notifications/chat.service';
 import { GroupForm } from './dashboard/groupForm/groupForm';
+import { AddContactForm } from './dashboard/addContactForm/addContactForm';
+import { AddParticipantForm } from './dashboard/addParticipantForm/addParticipantForm';
+import { GravatarModule } from  'ngx-gravatar';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { GroupForm } from './dashboard/groupForm/groupForm';
     SignupComponent,
     DashboardComponent,
     InfoComponent,
-    GroupForm
+    GroupForm,
+    AddContactForm,
+    AddParticipantForm
   ],
   imports: [
     BrowserModule,
@@ -38,9 +43,10 @@ import { GroupForm } from './dashboard/groupForm/groupForm';
     MatInputModule,
     MatCardModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    GravatarModule
   ],
-  entryComponents: [GroupForm],
+  entryComponents: [GroupForm, AddContactForm, AddParticipantForm],
   providers: [ChatService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })

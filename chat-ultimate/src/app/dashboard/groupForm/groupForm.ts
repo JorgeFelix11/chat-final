@@ -2,8 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DialogData } from '../dashboard.component';
 import { NotificationsService } from '../notifications/notifications.service';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/auth/user.model';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'groupForm',
@@ -17,6 +18,8 @@ export class GroupForm implements OnInit{
   found: boolean;
   contact: User;
   contacts: User[] = []
+  form: FormGroup;
+  valid: boolean;
 
   constructor(
     private notificationsService: NotificationsService,
@@ -24,19 +27,31 @@ export class GroupForm implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
     ngOnInit(){
+      this.valid = false;
       this.contacts = this.notificationsService.contacts;
       this.foundContactSub = this.notificationsService.searchContactListener().subscribe(wasFound => {
         this.contact = this.notificationsService.searchedContact
         this.found = wasFound;
       })
+      this.form = new FormGroup({
+        'groupName': new FormControl(null, {
+          validators: [Validators.required, Validators.maxLength(15)]
+        }),
+        'participant': new FormControl(null, {
+          validators: [Validators.email, this.participantsLengthValidator.bind(this)]
+        })
+      })
     }
 
-  search(email){
-    this.notificationsService.searchInContacts(email.value)
+  search(){
+    this.notificationsService.searchInContacts(this.form.value.participant)
   } 
 
   addParticipant(){
     this.participants.push(this.contact);
+    if(this.participants.length > 1){
+      this.valid = true;
+    }
   }
 
   onNoClick(): void {
@@ -44,16 +59,21 @@ export class GroupForm implements OnInit{
     this.foundContactSub.unsubscribe();
   }
 
-  createGroup(nameGroup){
+  createGroup(){
     let participantsIds: any[] = [];
     if(this.participants.length > 1){
       this.participants.forEach(element => {
         participantsIds.push({_id: element._id})
       })
-      this.notificationsService.createGroupChat(nameGroup.value, participantsIds)
+      this.notificationsService.createGroupChat(this.form.value.groupName, participantsIds)
       this.onNoClick()
-    }else{
-      console.log('not enough participants')
     }
+  }
+
+  participantsLengthValidator(control: FormControl): {[s: string]: boolean} {
+    if(this.participants.length < 2){
+      return {'participantsLength': true};
+    }
+    return null
   }
 }

@@ -3,6 +3,6 @@ export interface User{
   email?: string;
   username?: string;
   password?: string;
-  imagePath: string;
+  gravatar?: string;
   status?: string
 }

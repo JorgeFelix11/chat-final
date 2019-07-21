@@ -1,4 +1,4 @@
-version: '2' # specify docker-compose version
+version: '3' # specify docker-compose version
 
 # Define the services/containers to be run
 services:
@@ -7,6 +7,8 @@ services:
     build: chat-ultimate # specify the directory of the Dockerfile
     ports:
       - "4000:4000" # specify port forewarding
+    volumes:
+      - /app/node_modules
 
   nginx:
     restart: always
@@ -22,6 +24,9 @@ services:
       - "3000:3000" #specify ports forewarding
     links:
       - database # link this service to the database service
+    volumes:
+      - /app/node_modules
+      - ./express-server/backendUsers:/app
       
   express-chat:
     build: express-server/backendChat
@@ -29,6 +34,9 @@ services:
       - "5000:5000"
     links:
       - database
+    volumes:
+      - /app/node_modules
+      - ./express-server/backendChat:/app
 
   database: # name of the third service
     image: mongo # specify image to build container from

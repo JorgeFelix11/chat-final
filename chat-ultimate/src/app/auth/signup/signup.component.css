@@ -21,3 +21,19 @@ input[type='file']{
 .image-preview img{
   width: 100%;
 }
+
+[type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+[type=radio] + img {
+  margin: 7px;
+  cursor: pointer;
+}
+
+[type=radio]:checked + img {
+  outline: 2px solid #f00;
+}

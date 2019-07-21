@@ -65,6 +65,7 @@ export class NotificationsService{
   searchContact(email: string){
     this.http.post<any>('/api/users/search', {email})
       .subscribe(response => {
+        console.log(response.user)
         this.contact = response.user;
         this.foundStatus.next(true)
       })

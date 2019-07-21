@@ -13,7 +13,8 @@ const serverChat = appUsers.listen(port, () => {
 
 const userRoute = require('./routes/users');
 
-mongoose.connect('mongodb://localhost:27017/final-chat-app-USERS', {
+mongoose.connect('mongodb://database/final-chat-app-USERS', {
+// mongoose.connect('mongodb://localhost:27017/final-chat-app-USERS', {
   useNewUrlParser: true, 
   useCreateIndex: true})
     .then(() => {
@@ -26,7 +27,7 @@ mongoose.connect('mongodb://localhost:27017/final-chat-app-USERS', {
 
 appUsers.use(bodyParser.json())
 appUsers.use(bodyParser.urlencoded({extended: false}));
-appUsers.use("/images", express.static(path.join("images")))
+appUsers.use("/images", express.static(path.join(__dirname, "images")))
 appUsers.use(cookieParser());
 
 appUsers.use((req, res, next) => {

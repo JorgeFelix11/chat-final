@@ -36,23 +36,26 @@ router.get('/hello', (req, res) => {
   res.send("Hello world");
 })
 
-router.post('/signup', multer({ storage }).single('image'), (req, res, next) => {
-  const url = req.protocol + '://' + req.get('host');
-  console.log(url)
+// router.post('/signup', multer({ storage }).single('image'), (req, res, next) => {
+router.post('/signup', (req, res, next) => {
+  // const url = req.protocol + '://' + req.get('host');
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const newUser = new User({
         email: req.body.email,
         username: req.body.username,
         password: hash,
-        imagePath: url + '/images/' + req.file.filename
+        gravatar: req.body.gravatar
+        // imagePath: url + '/images/' + req.file.filename
       })
       newUser.save()
         .then(result => {
           let newUser = {
             _id: result._id
           }
+          // console.log(result.imagePath)
           axios.post('http://express-chat:5000/api/chat/onsignup', newUser)
+          // axios.post('http://localhost:5000/api/chat/onsignup', newUser)
             .then(result => {
               res.status(200).send(result.data)
             }).catch(e => {
@@ -96,10 +99,8 @@ router.post('/login', (req, res, next) => {
           email: fetchedUser.email,
           userId: fetchedUser._id
         },
-        'secret_for_token',
-        { expiresIn: '1h' }
+        'secret_for_token'
       );
-
       res.cookie('access_token', token)
       res.status(200).json({
         message: 'token provided in the cookie',
@@ -107,9 +108,11 @@ router.post('/login', (req, res, next) => {
           id: fetchedUser._id,
           email: fetchedUser.email,
           username: fetchedUser.username,
-          imagePath: fetchedUser.imagePath
+          gravatar: fetchedUser.gravatar
+          // imagePath: fetchedUser.imagePath
         }
       })
+
     })
     .catch(e => {
       res.status(401).json({
@@ -134,7 +137,8 @@ router.post('/getcontacts', (req, res, next) => {
     await asyncForEach(req.body, async (num) => {
       User.findById(num._id)
         .then(user => {
-          contactsInfo.push({ email: user.email, username: user.username, imagePath: user.imagePath, status: num.status, _id: user._id })
+          // contactsInfo.push({ email: user.email, username: user.username, imagePath: user.imagePath, status: num.status, _id: user._id })
+          contactsInfo.push({ email: user.email, username: user.username, gravatar: user.gravatar, status: num.status, _id: user._id })
         })
       await waitFor(50);
     });
@@ -153,13 +157,16 @@ router.post('/info', checkAuth, (req, res, next) => {
         id: req.userData.userId,
         email: response.email,
         username: response.username,
-        imagePath: response.imagePath
+        gravatar: response.gravatar
+        // imagePath: response.imagePath
       }
     })
   })
 })
 
 router.post('/search', checkAuth, (req, res, next) => {
+  console.log(req.body.email)
+  console.log(req.userData.email)
   User.findOne({ $and: [{ email: { $ne: req.userData.email } }, { email: req.body.email }] })
     .then(user => {
       if (!user) {
@@ -173,7 +180,8 @@ router.post('/search', checkAuth, (req, res, next) => {
           id: user._id,
           email: user.email,
           username: user.username,
-          imagePath: user.imagePath
+          gravatar: user.gravatar
+          // imagePath: user.imagePath
         }
       })
     })
@@ -191,6 +199,7 @@ router.post('/add', checkAuth, (req, res, next) => {
     userData: req.userData
   }
   axios.post('http://express-chat:5000/api/chat/add', data)
+    // axios.post('http://localhost:5000/api/chat/add', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -202,6 +211,7 @@ router.get('/getcontactsdb', checkAuth, (req, res, next) => {
     userData: req.userData
   }
   axios.post('http://express-chat:5000/api/chat/getcontacts', data)
+    // axios.post('http://localhost:5000/api/chat/getcontacts', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -213,6 +223,7 @@ router.post('/accept', checkAuth, (req, res, next) => {
     userData: req.userData
   }
   axios.post('http://express-chat:5000/api/chat/accept', data)
+    // axios.post('http://localhost:5000/api/chat/accept', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -224,6 +235,7 @@ router.post('/chat', checkAuth, (req, res, next) => {
     userData: req.userData
   }
   axios.post('http://express-chat:5000/api/chat/chat', data)
+    // axios.post('http://localhost:5000/api/chat/chat', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -235,27 +247,30 @@ router.post('/create-group', checkAuth, (req, res, next) => {
     userData: req.userData
   }
   axios.post('http://express-chat:5000/api/chat/create-group', data)
+    // axios.post('http://localhost:5000/api/chat/create-group', data)
     .then(result => {
       res.status(200).json(result.data)
     })
 })
 
 router.get('/getgroups', checkAuth, (req, res, next) => {
-  let data ={
+  let data = {
     userData: req.userData
   }
   axios.post('http://express-chat:5000/api/chat/getgroups', data)
+    // axios.post('http://localhost:5000/api/chat/getgroups', data)
     .then(result => {
       res.status(200).json(result.data)
     })
 })
 
 router.post('/message', checkAuth, (req, res, next) => {
-  let data ={
+  let data = {
     messageInfo: req.body,
     userData: req.userData
   }
   axios.post('http://express-chat:5000/api/chat/message', data)
+    // axios.post('http://localhost:5000/api/chat/message', data)
     .then(result => {
       res.status(200).json(result.data)
     })

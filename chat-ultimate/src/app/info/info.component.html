@@ -1,9 +1,9 @@
 <mat-card>
   <h3 i18n="Info section's title@@infoTitle">Profile Info</h3>
   <ul>
-    <li i18n="Display username@@username">Username: {{ user.username }}</li>
-    <li i18n="Email of user@@email">Email: {{ user.email }}</li>
-    <li i18n="Profile picture label@@profilePicture">Profile Picture:</li>
-    <img src="assets/images/jorge-1562659001628.jpg" [alt]="user.username">
+    <li i18n="Display username@@username"><span class="data">Username:</span> {{ user.username }}</li>
+    <li i18n="Email of user@@email"><span class="data">Email:</span> {{ user.email }}</li>
+    <li i18n="Profile picture label@@profilePicture"><span class="data">Profile Picture:</span></li>
+    <img ngxGravatar [email]="user.email" [alt]="user.username" fallback="{{user.gravatar}}" size="100">
   </ul>
 </mat-card>
