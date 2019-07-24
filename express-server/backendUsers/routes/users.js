@@ -33,7 +33,7 @@ const storage = multer.diskStorage({
 });
 
 router.get('/hello', (req, res) => {
-  res.send("Hello world");
+  res.send("Hello world from usersssss! v2");
 })
 
 // router.post('/signup', multer({ storage }).single('image'), (req, res, next) => {
@@ -102,7 +102,7 @@ router.post('/login', (req, res, next) => {
         'secret_for_token'
       );
       res.cookie('access_token', token)
-      res.status(200).json({
+      return res.status(200).json({
         message: 'token provided in the cookie',
         user: {
           id: fetchedUser._id,
@@ -112,10 +112,9 @@ router.post('/login', (req, res, next) => {
           // imagePath: fetchedUser.imagePath
         }
       })
-
     })
     .catch(e => {
-      res.status(401).json({
+      return res.status(401).json({
         message: 'Error HERE AUTH',
         e
       })

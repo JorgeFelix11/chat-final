@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: angular
+  name: angular
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: angular
+    spec:
+      containers:
+        - image: jorgefelix11/angular:chat8
+          name: angular
+          ports:
+            - containerPort: 4000
+          env:
+            - name: SERVER_HOST
+              value: express-chat
+            - name: SERVER_PORT
+              value: '5000'
+          resources: {}
+      hostname: localhost
+      restartPolicy: Always
+status: {}

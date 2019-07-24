@@ -4,15 +4,14 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Socket } from 'socket.io';
 import { Observable } from 'rxjs';
-import { ObserversModule } from '@angular/cdk/observers';
+import { environment } from 'src/environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class ChatService{
-  private url = 'http://localhost:5000';
   private socket: Socket;
 
   constructor(private http: HttpClient, public router: Router){
-    this.socket = io(this.url);
+    this.socket = io();
   }
 
   message(message: string, conversation: string){

@@ -18,7 +18,7 @@ const serverChat = appChat.listen(port, () => {
 let socketIO = require('socket.io')
 let io = socketIO(serverChat)
 
-mongoose.connect('mongodb://database/final-chat-app-CHAT', {
+mongoose.connect('mongodb://database:27017/final-chat-app-CHAT', {
   // mongoose.connect('mongodb://localhost:27017/final-chat-app-CHAT', {
   useNewUrlParser: true,
   useCreateIndex: true
@@ -46,7 +46,7 @@ appChat.use((req, res, next) => {
 });
 
 appChat.get('/api/chat/hello', (req, res) => {
-  res.send("Hello world from chat");
+  res.send("Hello world from chat v2");
 })
 
   appChat.post('/api/chat/chat', (req, res, next) => {
