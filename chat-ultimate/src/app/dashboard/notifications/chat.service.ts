@@ -11,7 +11,7 @@ export class ChatService{
   private socket: Socket;
 
   constructor(private http: HttpClient, public router: Router){
-    this.socket = io();
+    this.socket = io('http://localhost:5000');
   }
 
   message(message: string, conversation: string){

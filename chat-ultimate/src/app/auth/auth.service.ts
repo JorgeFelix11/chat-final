@@ -64,9 +64,9 @@ export class AuthService {
           });
         })
 
-
-
         this.router.navigate(['/dashboard']);
+      }, error => {
+        console.log(error)
       })
   }
 

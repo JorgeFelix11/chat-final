@@ -15,23 +15,6 @@ const MIME_TYPE_MAP = {
   'image/jpeg': 'jpg'
 }
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const isValid = MIME_TYPE_MAP[file.mimetype];
-    let error = new Error('Invalid mime type');
-    if (isValid) {
-      error = null;
-    }
-    cb(error, "images")
-  },
-  filename: (req, file, cb) => {
-    const name = file.originalname.toLowerCase().split(' ').join('-');
-    // console.log(name)
-    const ext = MIME_TYPE_MAP[file.mimetype];
-    cb(null, name + "-" + Date.now() + "." + ext)
-  }
-});
-
 router.get('/hello', (req, res) => {
   res.send("Hello world from usersssss! v2");
 })
@@ -54,8 +37,8 @@ router.post('/signup', (req, res, next) => {
             _id: result._id
           }
           // console.log(result.imagePath)
-          axios.post('http://express-chat:5000/api/chat/onsignup', newUser)
-          // axios.post('http://localhost:5000/api/chat/onsignup', newUser)
+          // axios.post('http://express-chat:5000/api/chat/onsignup', newUser)
+          axios.post('http://localhost:5000/api/chat/onsignup', newUser)
             .then(result => {
               res.status(200).send(result.data)
             }).catch(e => {
@@ -93,7 +76,6 @@ router.post('/login', (req, res, next) => {
           message: 'Wrong Password'
         })
       }
-
       const token = jwt.sign(
         {
           email: fetchedUser.email,
@@ -102,23 +84,17 @@ router.post('/login', (req, res, next) => {
         'secret_for_token'
       );
       res.cookie('access_token', token)
-      return res.status(200).json({
+      res.status(200).json({
         message: 'token provided in the cookie',
         user: {
           id: fetchedUser._id,
           email: fetchedUser.email,
           username: fetchedUser.username,
           gravatar: fetchedUser.gravatar
-          // imagePath: fetchedUser.imagePath
         }
       })
     })
-    .catch(e => {
-      return res.status(401).json({
-        message: 'Error HERE AUTH',
-        e
-      })
-    })
+    .catch(e => {})
 })
 
 router.post('/getcontact', (req, res, next) => {
@@ -197,8 +173,8 @@ router.post('/add', checkAuth, (req, res, next) => {
     contactData: req.body,
     userData: req.userData
   }
-  axios.post('http://express-chat:5000/api/chat/add', data)
-    // axios.post('http://localhost:5000/api/chat/add', data)
+  // axios.post('http://express-chat:5000/api/chat/add', data)
+  axios.post('http://localhost:5000/api/chat/add', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -209,8 +185,8 @@ router.get('/getcontactsdb', checkAuth, (req, res, next) => {
   let data = {
     userData: req.userData
   }
-  axios.post('http://express-chat:5000/api/chat/getcontacts', data)
-    // axios.post('http://localhost:5000/api/chat/getcontacts', data)
+  // axios.post('http://express-chat:5000/api/chat/getcontacts', data)
+  axios.post('http://localhost:5000/api/chat/getcontacts', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -221,8 +197,8 @@ router.post('/accept', checkAuth, (req, res, next) => {
     friend: req.body,
     userData: req.userData
   }
-  axios.post('http://express-chat:5000/api/chat/accept', data)
-    // axios.post('http://localhost:5000/api/chat/accept', data)
+  // axios.post('http://express-chat:5000/api/chat/accept', data)
+  axios.post('http://localhost:5000/api/chat/accept', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -233,8 +209,8 @@ router.post('/chat', checkAuth, (req, res, next) => {
     info: req.body,
     userData: req.userData
   }
-  axios.post('http://express-chat:5000/api/chat/chat', data)
-    // axios.post('http://localhost:5000/api/chat/chat', data)
+  // axios.post('http://express-chat:5000/api/chat/chat', data)
+  axios.post('http://localhost:5000/api/chat/chat', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -245,8 +221,8 @@ router.post('/create-group', checkAuth, (req, res, next) => {
     groupInfo: req.body,
     userData: req.userData
   }
-  axios.post('http://express-chat:5000/api/chat/create-group', data)
-    // axios.post('http://localhost:5000/api/chat/create-group', data)
+  // axios.post('http://express-chat:5000/api/chat/create-group', data)
+  axios.post('http://localhost:5000/api/chat/create-group', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -256,8 +232,8 @@ router.get('/getgroups', checkAuth, (req, res, next) => {
   let data = {
     userData: req.userData
   }
-  axios.post('http://express-chat:5000/api/chat/getgroups', data)
-    // axios.post('http://localhost:5000/api/chat/getgroups', data)
+  // axios.post('http://express-chat:5000/api/chat/getgroups', data)
+  axios.post('http://localhost:5000/api/chat/getgroups', data)
     .then(result => {
       res.status(200).json(result.data)
     })
@@ -268,8 +244,8 @@ router.post('/message', checkAuth, (req, res, next) => {
     messageInfo: req.body,
     userData: req.userData
   }
-  axios.post('http://express-chat:5000/api/chat/message', data)
-    // axios.post('http://localhost:5000/api/chat/message', data)
+  // axios.post('http://express-chat:5000/api/chat/message', data)
+  axios.post('http://localhost:5000/api/chat/message', data)
     .then(result => {
       res.status(200).json(result.data)
     })

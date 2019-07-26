@@ -13,8 +13,8 @@ const serverChat = appUsers.listen(port, () => {
 
 const userRoute = require('./routes/users');
 
-mongoose.connect('mongodb://database:27017/final-chat-app-USERS', {
-// mongoose.connect('mongodb://localhost:27017/final-chat-app-USERS', {
+// mongoose.connect('mongodb://database:27017/final-chat-app-USERS', {
+mongoose.connect('mongodb://localhost:27017/final-chat-app-USERS', {
   useNewUrlParser: true, 
   useCreateIndex: true})
     .then(() => {
